@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC63895A208161670028D294 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC638959208161670028D294 /* ViewController.swift */; };
 		ACF08B6A2080C80D003F2E6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF08B692080C80D003F2E6A /* AppDelegate.swift */; };
-		ACF08B6C2080C80D003F2E6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF08B6B2080C80D003F2E6A /* ViewController.swift */; };
+		ACF08B6C2080C80D003F2E6A /* ScanToFillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF08B6B2080C80D003F2E6A /* ScanToFillView.swift */; };
 		ACF08B6F2080C80D003F2E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF08B6D2080C80D003F2E6A /* Main.storyboard */; };
 		ACF08B712080C81C003F2E6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF08B702080C81C003F2E6A /* Assets.xcassets */; };
 		ACF08B742080C81C003F2E6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACF08B722080C81C003F2E6A /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC638959208161670028D294 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		ACF08B662080C80D003F2E6A /* TestUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF08B692080C80D003F2E6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ACF08B6B2080C80D003F2E6A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ACF08B6B2080C80D003F2E6A /* ScanToFillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanToFillView.swift; sourceTree = "<group>"; };
 		ACF08B6E2080C80D003F2E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ACF08B702080C81C003F2E6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACF08B732080C81C003F2E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -35,6 +37,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC188F292080F95700E54B50 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACF08B692080C80D003F2E6A /* AppDelegate.swift */,
+				ACF08B702080C81C003F2E6A /* Assets.xcassets */,
+				ACF08B722080C81C003F2E6A /* LaunchScreen.storyboard */,
+				ACF08B752080C81C003F2E6A /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		ACF08B5D2080C80D003F2E6A = {
 			isa = PBXGroup;
 			children = (
@@ -54,12 +67,10 @@
 		ACF08B682080C80D003F2E6A /* TestUI */ = {
 			isa = PBXGroup;
 			children = (
-				ACF08B692080C80D003F2E6A /* AppDelegate.swift */,
-				ACF08B6B2080C80D003F2E6A /* ViewController.swift */,
+				AC188F292080F95700E54B50 /* Supporting Files */,
+				ACF08B6B2080C80D003F2E6A /* ScanToFillView.swift */,
+				AC638959208161670028D294 /* ViewController.swift */,
 				ACF08B6D2080C80D003F2E6A /* Main.storyboard */,
-				ACF08B702080C81C003F2E6A /* Assets.xcassets */,
-				ACF08B722080C81C003F2E6A /* LaunchScreen.storyboard */,
-				ACF08B752080C81C003F2E6A /* Info.plist */,
 			);
 			path = TestUI;
 			sourceTree = "<group>";
@@ -135,7 +146,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACF08B6C2080C80D003F2E6A /* ViewController.swift in Sources */,
+				AC63895A208161670028D294 /* ViewController.swift in Sources */,
+				ACF08B6C2080C80D003F2E6A /* ScanToFillView.swift in Sources */,
 				ACF08B6A2080C80D003F2E6A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,7 +294,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JE5R4U2ZLM;
-				INFOPLIST_FILE = TestUI/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/TestUI/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,7 +312,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JE5R4U2ZLM;
-				INFOPLIST_FILE = TestUI/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/TestUI/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
