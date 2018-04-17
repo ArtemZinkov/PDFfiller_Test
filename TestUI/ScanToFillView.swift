@@ -10,24 +10,87 @@ import UIKit
 
 class ScanToFillView: UIView {
     
-   var dictOfCenters = [Dots: CGPoint]() { didSet { setNeedsDisplay() } }
-    
+    var dictOfCenters = [Dots: CGPoint]() { didSet { setNeedsDisplay() } }
+    var dictOfSidesRects = [Sides: CGRect]()
+    let dictOfDotsForSides: [Sides:(Dots, Dots)] = [
+        .up: (.upperLeft, .upperRight),
+        .down: (.lowerLeft, .lowerRight),
+        .left: (.upperLeft, .lowerLeft),
+        .right: (.upperRight, .lowerRight)
+    ]
+    let sideDragerLenghtMod: CGFloat = 5 // means width side drager = 1/(mod + 1)
+
     override func draw(_ rect: CGRect) {
+        if dictOfCenters.count != 4 {
+            print("Dot centers are not setted!")
+            return
+        }
+        
         drawDot(with: dictOfCenters[.upperLeft]!)
         drawDot(with: dictOfCenters[.upperRight]!)
         drawDot(with: dictOfCenters[.lowerLeft]!)
         drawDot(with: dictOfCenters[.lowerRight]!)
-        drawRect()
+        drawMainRect()
+
+        let upBeziarPath = getSideRect(between: .upperLeft, and: .upperRight)
+        let downBeziarPath = getSideRect(between: .lowerRight, and: .lowerLeft)
+        let leftBeziarPath = getSideRect(between: .lowerLeft, and: .upperLeft)
+        let rightBeziarPath = getSideRect(between: .upperRight, and: .lowerRight)
+
+        
+        dictOfSidesRects[.up] = upBeziarPath.bounds.insetBy(dx: -10, dy: -10)
+        dictOfSidesRects[.down] = downBeziarPath.bounds.insetBy(dx: -10, dy: -10)
+        dictOfSidesRects[.left] = leftBeziarPath.bounds.insetBy(dx: -10, dy: -10)
+        dictOfSidesRects[.right] = rightBeziarPath.bounds.insetBy(dx: -10, dy: -10)
+        
+        upBeziarPath.stroke()
+        downBeziarPath.stroke()
+        leftBeziarPath.stroke()
+        rightBeziarPath.stroke()
+        
+        // Uncomment to show sides touch-zones
+        for keyValue in dictOfSidesRects {
+            let bp = UIBezierPath(rect: keyValue.value)
+            bp.lineWidth = 3
+            UIColor.red.setStroke()
+            bp.stroke()
+        }
+
+    }
+    
+    func isConvex() -> Bool {
+        
+        for dot in dictOfCenters.keys {
+            if !isConvex(dot, dictOfCenters) {
+                print("Rectangle is not convex!")
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func isConvex(_ dot: Dots, _ dict: [Dots: CGPoint]) -> Bool {
+        
+        var dict = dict
+        dict.removeValue(forKey: dot)
+        let path = UIBezierPath()
+        path.move(to: dict.popFirst()!.value)
+        path.addLine(to: dict.popFirst()!.value)
+        path.addLine(to: dict.popFirst()!.value)
+        path.close()
+
+        return !path.contains(dictOfCenters[dot]!)
     }
     
     func drawDot(with center: CGPoint) {
         let path = UIBezierPath()
         path.addDot(withCenter: center)
-        UIColor.blue.setFill()
+        UIColor.azure.setFill()
         path.fill()
     }
     
-    func drawRect() {
+    func drawMainRect() {
         let path = UIBezierPath()
         path.move(to: dictOfCenters[.upperLeft]!)
         path.addLine(to: dictOfCenters[.upperRight]!)
@@ -35,10 +98,32 @@ class ScanToFillView: UIView {
         path.addLine(to: dictOfCenters[.lowerLeft]!)
         path.close()
         path.lineWidth = 5.0
-        UIColor.blue.setStroke()
-        UIColor.blue.withAlphaComponent(0.2).setFill()
+        UIColor.azure.setStroke()
+        UIColor.azure.withAlphaComponent(0.2).setFill()
         path.stroke()
         path.fill()
+    }
+
+    private func getSideRect(between firstDot: Dots, and secondDot: Dots) -> UIBezierPath {
+
+        let centerOfSideRect = CGPoint(x: (dictOfCenters[firstDot]!.x + dictOfCenters[secondDot]!.x) / 2,
+                                       y: (dictOfCenters[firstDot]!.y + dictOfCenters[secondDot]!.y) / 2)
+        let startPoint = getSidePoint(betweenCenter: centerOfSideRect, andPoint: dictOfCenters[firstDot]!)
+        let endPoint = getSidePoint(betweenCenter: centerOfSideRect, andPoint: dictOfCenters[secondDot]!)
+
+        let path = UIBezierPath()
+        path.move(to: startPoint)
+        path.addLine(to: endPoint)
+        path.close()
+        UIColor.azure.setStroke()
+        path.lineWidth = 15
+        
+        return path
+    }
+    
+    private func getSidePoint(betweenCenter center: CGPoint, andPoint anotherPoint: CGPoint) -> CGPoint {
+        return CGPoint(x: ((sideDragerLenghtMod * center.x) + anotherPoint.x) / (sideDragerLenghtMod + 1),
+                y: ((sideDragerLenghtMod * center.y) + anotherPoint.y) / (sideDragerLenghtMod + 1))
     }
 }
 
@@ -53,6 +138,12 @@ extension UIBezierPath {
     }
 }
 
+extension UIColor {
+    class var azure: UIColor {
+        return UIColor(red: 0, green: 1/2, blue: 5/6, alpha: 1)
+    }
+}
+
 enum Dots {
     case upperLeft
     case upperRight
@@ -60,73 +151,9 @@ enum Dots {
     case lowerRight
 }
 
-
-var arr = [3,4,4,6,1,4,4]
-public func solution(_ N : Int, _ A : inout [Int]) -> [Int] {
-    
-    var arr = Array<Int>(repeating: 0, count: N)
-    
-    for value in A {
-        if value == N + 1 {
-            arr = Array<Int>(repeating: arr.max()!, count: N)
-        } else {
-            arr[value-1] += 1
-        }
-    }
-    return arr
+enum Sides {
+    case up
+    case down
+    case left
+    case right
 }
-
-//You are given N counters, initially set to 0, and you have two possible operations on them:
-//
-//increase(X) − counter X is increased by 1,
-//max counter − all counters are set to the maximum value of any counter.
-//A non-empty zero-indexed array A of M integers is given. This array represents consecutive operations:
-//
-//    if A[K] = X, such that 1 ≤ X ≤ N, then operation K is increase(X),
-//if A[K] = N + 1 then operation K is max counter.
-//For example, given integer N = 5 and array A such that:
-//
-//A[0] = 3
-//A[1] = 4
-//A[2] = 4
-//A[3] = 6
-//A[4] = 1
-//A[5] = 4
-//A[6] = 4
-//the values of the counters after each consecutive operation will be:
-//
-//(0, 0, 1, 0, 0)
-//(0, 0, 1, 1, 0)
-//(0, 0, 1, 2, 0)
-//(2, 2, 2, 2, 2)
-//(3, 2, 2, 2, 2)
-//(3, 2, 2, 3, 2)
-//(3, 2, 2, 4, 2)
-//The goal is to calculate the value of every counter after all operations.
-//
-//Write a function:
-//
-//public func solution(_ N : Int, _ A : inout [Int]) -> [Int]
-//
-//that, given an integer N and a non-empty zero-indexed array A consisting of M integers, returns a sequence of integers representing the values of the counters.
-//
-//The sequence should be returned as an array of integers.
-//For example, given:
-//
-//A[0] = 3
-//A[1] = 4
-//A[2] = 4
-//A[3] = 6
-//A[4] = 1
-//A[5] = 4
-//A[6] = 4
-//the function should return [3, 2, 2, 4, 2], as explained above.
-//
-//Assume that:
-//
-//N and M are integers within the range [1..100,000];
-//each element of array A is an integer within the range [1..N + 1].
-//Complexity:
-//
-//expected worst-case time complexity is O(N+M);
-//expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
