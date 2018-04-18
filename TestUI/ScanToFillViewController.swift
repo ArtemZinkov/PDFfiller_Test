@@ -55,7 +55,7 @@ class ScanToFillViewController: UIViewController {
                 var changedDict = STF_view.dictOfCenters
                 let newCenterForDot = gesture.location(in: STF_view)
                 changedDict[touchedDot] = newCenterForDot
-                if STF_view.isConvex(touchedDot, changedDict) {
+                if STF_view.isConvex(touchedDot, changedDict), STF_view.isConvex() {
                     STF_view.dictOfCenters[touchedDot] = newCenterForDot
                 }
             }
@@ -69,7 +69,7 @@ class ScanToFillViewController: UIViewController {
                 changedDict[dots.second]!.x += movedBy.x
                 changedDict[dots.second]!.y += movedBy.y
 
-                if STF_view.isConvex(dots.first, changedDict), STF_view.isConvex(dots.second, changedDict) {
+                if STF_view.isConvex(dots.first, changedDict), STF_view.isConvex(dots.second, changedDict), STF_view.isConvex() {
                     STF_view.dictOfCenters[dots.first]!.x += movedBy.x
                     STF_view.dictOfCenters[dots.first]!.y += movedBy.y
                     STF_view.dictOfCenters[dots.second]!.x += movedBy.x

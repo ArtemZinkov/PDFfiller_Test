@@ -73,14 +73,14 @@ class ScanToFillView: UIView {
     func isConvex(_ dot: Dots, _ dict: [Dots: CGPoint]) -> Bool {
         
         var dict = dict
-        dict.removeValue(forKey: dot)
+        let changedCenter = dict.removeValue(forKey: dot)
         let path = UIBezierPath()
         path.move(to: dict.popFirst()!.value)
         path.addLine(to: dict.popFirst()!.value)
         path.addLine(to: dict.popFirst()!.value)
         path.close()
 
-        return !path.contains(dictOfCenters[dot]!)
+        return !path.contains(changedCenter!)
     }
     
     func drawDot(with center: CGPoint) {
