@@ -58,29 +58,27 @@ class ScanToFillView: UIView {
 
     }
     
-    func isConvex() -> Bool {
+    func isConvex(with newDictOfCenters: [Dots: CGPoint]) -> Bool {
+ 
+        return intersection(ofLineFrom: newDictOfCenters[.upperLeft]!, to: newDictOfCenters[.lowerRight]!, withLineFrom: newDictOfCenters[.upperRight]!, to: newDictOfCenters[.lowerLeft]!)
         
-        for dot in dictOfCenters.keys {
-            if !isConvex(dot, dictOfCenters) {
-                print("Rectangle is not convex!")
-                return false
-            }
-        }
-        
-        return true
     }
-    
-    func isConvex(_ dot: Dots, _ dict: [Dots: CGPoint]) -> Bool {
         
-        var dict = dict
-        let changedCenter = dict.removeValue(forKey: dot)
-        let path = UIBezierPath()
-        path.move(to: dict.popFirst()!.value)
-        path.addLine(to: dict.popFirst()!.value)
-        path.addLine(to: dict.popFirst()!.value)
-        path.close()
+    func intersection(ofLineFrom p1: CGPoint, to p2: CGPoint, withLineFrom p3: CGPoint, to p4: CGPoint) -> Bool {
+        let d = (p2.x - p1.x)*(p4.y - p3.y) - (p2.y - p1.y)*(p4.x - p3.x)
+        if (d == 0) {
+            return false // parallel lines
+        }
+        let u = ((p3.x - p1.x)*(p4.y - p3.y) - (p3.y - p1.y)*(p4.x - p3.x))/d;
+        let v = ((p3.x - p1.x)*(p2.y - p1.y) - (p3.y - p1.y)*(p2.x - p1.x))/d;
+        if (u < 0.0 || u > 1.0) {
+            return false // intersection point not between p1 and p2
+        }
+        if (v < 0.0 || v > 1.0) {
+            return false // intersection point not between p3 and p4
+        }
 
-        return !path.contains(changedCenter!)
+        return true //CGPoint(x: p1.x + u * (p2.x - p1.x), y: p1.y + u * (p2.y - p1.y))
     }
     
     func drawDot(with center: CGPoint) {
@@ -124,6 +122,10 @@ class ScanToFillView: UIView {
     private func getSidePoint(betweenCenter center: CGPoint, andPoint anotherPoint: CGPoint) -> CGPoint {
         return CGPoint(x: ((sideDragerLenghtMod * center.x) + anotherPoint.x) / (sideDragerLenghtMod + 1),
                 y: ((sideDragerLenghtMod * center.y) + anotherPoint.y) / (sideDragerLenghtMod + 1))
+    }
+    
+    func getDistance(between first: CGPoint, and second: CGPoint) -> Double {
+        return sqrt(pow(Double(first.x - second.x), 2) + pow(Double(first.y - second.y),2))
     }
 }
 
