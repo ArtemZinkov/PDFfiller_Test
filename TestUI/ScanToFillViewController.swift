@@ -13,6 +13,7 @@ class ScanToFillViewController: UIViewController {
     private lazy var STF_view = view as! ScanToFillView
     private var touchedDot: Dots?
     private var touchedSide: Sides?
+    private var touchedRect = false
     var dotTouchAccurancy: CGFloat = 20
 
     override func viewDidLoad() {
@@ -21,17 +22,38 @@ class ScanToFillViewController: UIViewController {
         view.addGestureRecognizer(panGR)
         
         // setting dots coordinates
-        setStartingSettings()
+        STF_view.setStartingSettings()
     }
     
-    func setStartingSettings() {
-        STF_view.dictOfCenters[.upperLeft] = CGPoint(x: STF_view.bounds.width * 0.1, y: view.bounds.height * 0.1)
-        STF_view.dictOfCenters[.upperRight] = CGPoint(x: STF_view.bounds.width * 0.9, y: view.bounds.height * 0.1)
-        STF_view.dictOfCenters[.lowerLeft] = CGPoint(x: STF_view.bounds.width * 0.1, y: view.bounds.height * 0.9)
-        STF_view.dictOfCenters[.lowerRight] = CGPoint(x: STF_view.bounds.width * 0.9, y: view.bounds.height * 0.9)
+    func initialize(with rect: CGRect) {
+        let xMid = (STF_view.bounds.width - rect.width)/2
+        let yMid = (STF_view.bounds.height - rect.height)/2
+        let upperLeft = CGPoint(x: xMid, y: yMid)
+        let upperRight = CGPoint(x: rect.width + xMid, y: yMid)
+        let lowerRight = CGPoint(x: rect.width + xMid, y: rect.height + yMid)
+        let lowerLeft = CGPoint(x: xMid, y: rect.height + yMid)
+        initialize(upperLeft: upperLeft,
+                   upperRight: upperRight,
+                   lowerRight: lowerRight,
+                   lowerLeft: lowerLeft)
     }
     
-    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+    func initialize(upperLeft: CGPoint, upperRight: CGPoint, lowerRight: CGPoint, lowerLeft: CGPoint) {
+        var dictForCheck = STF_view.dictOfCenters
+        dictForCheck[.upperLeft] = upperLeft
+        dictForCheck[.upperRight] = upperRight
+        dictForCheck[.lowerRight] = lowerRight
+        dictForCheck[.lowerLeft] = lowerLeft
+
+        if STF_view.isConvex(with: dictForCheck) {
+            STF_view.dictOfCenters[.upperLeft] = upperLeft
+            STF_view.dictOfCenters[.upperRight] = upperRight
+            STF_view.dictOfCenters[.lowerRight] = lowerRight
+            STF_view.dictOfCenters[.lowerLeft] = lowerLeft
+        }
+    }
+    
+    @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         
         switch gesture.state {
         case .began:
@@ -50,6 +72,10 @@ class ScanToFillViewController: UIViewController {
                 }
             }
             
+            if STF_view.getMainRectPath().contains(touchedAt) {
+                touchedRect = true
+            }
+            
         case .changed:
             if let touchedDot = touchedDot {
                 var changedDict = STF_view.dictOfCenters
@@ -58,6 +84,16 @@ class ScanToFillViewController: UIViewController {
                 if STF_view.isConvex(with: changedDict) {
                     STF_view.dictOfCenters[touchedDot] = newCenterForDot
                 }
+            }
+            if touchedRect, touchedDot == nil, touchedSide == nil {
+                let movedBy = gesture.translation(in: STF_view)
+                var changedDict = STF_view.dictOfCenters
+                
+                for keyValue in changedDict {
+                    changedDict[keyValue.key]!.x += movedBy.x
+                    changedDict[keyValue.key]!.y += movedBy.y
+                }
+                STF_view.dictOfCenters = changedDict
             }
             if let touchedSide = touchedSide {
                 let movedBy = gesture.translation(in: STF_view)
@@ -76,14 +112,17 @@ class ScanToFillViewController: UIViewController {
                     STF_view.dictOfCenters[dots.second]!.y += movedBy.y
                 }
 
-                gesture.setTranslation(CGPoint.zero, in: STF_view)
             }
+
+            gesture.setTranslation(CGPoint.zero, in: STF_view)
         case .ended, .cancelled, .failed:
             touchedDot = nil
             touchedSide = nil
+            touchedRect = false
         default:
             touchedDot = nil
             touchedSide = nil
+            touchedRect = false
         }
     }
 }

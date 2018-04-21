@@ -10,7 +10,20 @@ import UIKit
 
 class ScanToFillView: UIView {
     
-    var dictOfCenters = [Dots: CGPoint]() { didSet { setNeedsDisplay() } }
+    var dictOfCenters = [Dots: CGPoint]() {
+        didSet {
+            let someDict = dictOfCenters.filter { 0 > $0.value.x || $0.value.x > bounds.maxX || 0 > $0.value.y || $0.value.y > bounds.maxY }
+            if someDict.count != 0 {
+                for keyValue in someDict {
+                    dictOfCenters[keyValue.key]!.x = min(max(dictOfCenters[keyValue.key]!.x, 0), bounds.width)
+                    dictOfCenters[keyValue.key]!.y = min(max(dictOfCenters[keyValue.key]!.y, 0), bounds.height)
+                }
+            }
+            setNeedsDisplay()
+        }
+    }
+    
+    var sideDragerLenghtMod: CGFloat = 5 // means - width of side drager = 1/(mod + 1)
     var dictOfSidesRects = [Sides: CGRect]()
     let dictOfDotsForSides: [Sides:(Dots, Dots)] = [
         .up: (.upperLeft, .upperRight),
@@ -18,8 +31,14 @@ class ScanToFillView: UIView {
         .left: (.upperLeft, .lowerLeft),
         .right: (.upperRight, .lowerRight)
     ]
-    let sideDragerLenghtMod: CGFloat = 5 // means width side drager = 1/(mod + 1)
 
+    func setStartingSettings() {
+        dictOfCenters[.upperLeft] = CGPoint(x: bounds.width * 0.1, y: bounds.height * 0.1)
+        dictOfCenters[.upperRight] = CGPoint(x: bounds.width * 0.9, y: bounds.height * 0.1)
+        dictOfCenters[.lowerLeft] = CGPoint(x: bounds.width * 0.1, y: bounds.height * 0.9)
+        dictOfCenters[.lowerRight] = CGPoint(x: bounds.width * 0.9, y: bounds.height * 0.9)
+    }
+    
     override func draw(_ rect: CGRect) {
         if dictOfCenters.count != 4 {
             print("Dot centers are not setted!")
@@ -30,14 +49,15 @@ class ScanToFillView: UIView {
         drawDot(with: dictOfCenters[.upperRight]!)
         drawDot(with: dictOfCenters[.lowerLeft]!)
         drawDot(with: dictOfCenters[.lowerRight]!)
-        drawMainRect()
+        let mainRectPath = getMainRectPath()
+        mainRectPath.stroke()
+        mainRectPath.fill()
 
         let upBeziarPath = getSideRect(between: .upperLeft, and: .upperRight)
         let downBeziarPath = getSideRect(between: .lowerRight, and: .lowerLeft)
         let leftBeziarPath = getSideRect(between: .lowerLeft, and: .upperLeft)
         let rightBeziarPath = getSideRect(between: .upperRight, and: .lowerRight)
 
-        
         dictOfSidesRects[.up] = upBeziarPath.bounds.insetBy(dx: -10, dy: -10)
         dictOfSidesRects[.down] = downBeziarPath.bounds.insetBy(dx: -10, dy: -10)
         dictOfSidesRects[.left] = leftBeziarPath.bounds.insetBy(dx: -10, dy: -10)
@@ -49,46 +69,28 @@ class ScanToFillView: UIView {
         rightBeziarPath.stroke()
         
         // Uncomment to show sides touch-zones
-        for keyValue in dictOfSidesRects {
+        /*for keyValue in dictOfSidesRects {
             let bp = UIBezierPath(rect: keyValue.value)
             bp.lineWidth = 3
             UIColor.red.setStroke()
             bp.stroke()
-        }
+        }*/
 
     }
     
+    // TODO: є сенс перекинути виклик в didSet/willSet змінної dictOfCenters
     func isConvex(with newDictOfCenters: [Dots: CGPoint]) -> Bool {
- 
-        return intersection(ofLineFrom: newDictOfCenters[.upperLeft]!, to: newDictOfCenters[.lowerRight]!, withLineFrom: newDictOfCenters[.upperRight]!, to: newDictOfCenters[.lowerLeft]!)
-        
-    }
-        
-    func intersection(ofLineFrom p1: CGPoint, to p2: CGPoint, withLineFrom p3: CGPoint, to p4: CGPoint) -> Bool {
-        let d = (p2.x - p1.x)*(p4.y - p3.y) - (p2.y - p1.y)*(p4.x - p3.x)
-        if (d == 0) {
-            return false // parallel lines
-        }
-        let u = ((p3.x - p1.x)*(p4.y - p3.y) - (p3.y - p1.y)*(p4.x - p3.x))/d;
-        let v = ((p3.x - p1.x)*(p2.y - p1.y) - (p3.y - p1.y)*(p2.x - p1.x))/d;
-        if (u < 0.0 || u > 1.0) {
-            return false // intersection point not between p1 and p2
-        }
-        if (v < 0.0 || v > 1.0) {
-            return false // intersection point not between p3 and p4
-        }
-
-        return true //CGPoint(x: p1.x + u * (p2.x - p1.x), y: p1.y + u * (p2.y - p1.y))
+        return checkingFunctions.intersection(ofLineFrom: newDictOfCenters[.upperLeft]!, to: newDictOfCenters[.lowerRight]!, withLineFrom: newDictOfCenters[.upperRight]!, to: newDictOfCenters[.lowerLeft]!)
     }
     
-    func drawDot(with center: CGPoint) {
+    private func drawDot(with center: CGPoint) {
         let path = UIBezierPath()
         path.addDot(withCenter: center)
         UIColor.azure.setFill()
         path.fill()
     }
     
-    func drawMainRect() {
+    func getMainRectPath() -> UIBezierPath {
         let path = UIBezierPath()
         path.move(to: dictOfCenters[.upperLeft]!)
         path.addLine(to: dictOfCenters[.upperRight]!)
@@ -98,8 +100,7 @@ class ScanToFillView: UIView {
         path.lineWidth = 5.0
         UIColor.azure.setStroke()
         UIColor.azure.withAlphaComponent(0.2).setFill()
-        path.stroke()
-        path.fill()
+        return path
     }
 
     private func getSideRect(between firstDot: Dots, and secondDot: Dots) -> UIBezierPath {
@@ -123,39 +124,4 @@ class ScanToFillView: UIView {
         return CGPoint(x: ((sideDragerLenghtMod * center.x) + anotherPoint.x) / (sideDragerLenghtMod + 1),
                 y: ((sideDragerLenghtMod * center.y) + anotherPoint.y) / (sideDragerLenghtMod + 1))
     }
-    
-    func getDistance(between first: CGPoint, and second: CGPoint) -> Double {
-        return sqrt(pow(Double(first.x - second.x), 2) + pow(Double(first.y - second.y),2))
-    }
-}
-
-extension UIBezierPath {
-    func addDot(withCenter center: CGPoint) {
-        self.addArc(withCenter: center,
-                    radius: 10,
-                    startAngle: 0,
-                    endAngle: 2*CGFloat.pi,
-                    clockwise: true)
-        self.close()
-    }
-}
-
-extension UIColor {
-    class var azure: UIColor {
-        return UIColor(red: 0, green: 1/2, blue: 5/6, alpha: 1)
-    }
-}
-
-enum Dots {
-    case upperLeft
-    case upperRight
-    case lowerLeft
-    case lowerRight
-}
-
-enum Sides {
-    case up
-    case down
-    case left
-    case right
 }

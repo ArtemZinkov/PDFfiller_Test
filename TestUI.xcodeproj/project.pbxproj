@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC43ED83208B81EA003638C5 /* SupportingFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC43ED82208B81EA003638C5 /* SupportingFile.swift */; };
 		AC63895A208161670028D294 /* ScanToFillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC638959208161670028D294 /* ScanToFillViewController.swift */; };
 		ACF08B6A2080C80D003F2E6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF08B692080C80D003F2E6A /* AppDelegate.swift */; };
 		ACF08B6C2080C80D003F2E6A /* ScanToFillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF08B6B2080C80D003F2E6A /* ScanToFillView.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC43ED82208B81EA003638C5 /* SupportingFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingFile.swift; sourceTree = "<group>"; };
 		AC638959208161670028D294 /* ScanToFillViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanToFillViewController.swift; sourceTree = "<group>"; };
 		ACF08B662080C80D003F2E6A /* TestUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF08B692080C80D003F2E6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			children = (
 				AC188F292080F95700E54B50 /* Supporting Files */,
 				ACF08B6B2080C80D003F2E6A /* ScanToFillView.swift */,
+				AC43ED82208B81EA003638C5 /* SupportingFile.swift */,
 				AC638959208161670028D294 /* ScanToFillViewController.swift */,
 				ACF08B6D2080C80D003F2E6A /* Main.storyboard */,
 			);
@@ -148,6 +151,7 @@
 			files = (
 				AC63895A208161670028D294 /* ScanToFillViewController.swift in Sources */,
 				ACF08B6C2080C80D003F2E6A /* ScanToFillView.swift in Sources */,
+				AC43ED83208B81EA003638C5 /* SupportingFile.swift in Sources */,
 				ACF08B6A2080C80D003F2E6A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
