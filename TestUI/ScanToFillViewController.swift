@@ -10,7 +10,8 @@ import UIKit
 
 class ScanToFillViewController: UIViewController {
 
-    private lazy var STF_view = view as! ScanToFillView
+//    private lazy var STF_view = view as! ScanToFillView
+    private var STF_view: ScanToFillView!
     private var touchedDot: Dots?
     private var touchedSide: Sides?
     private var touchedRect = false
@@ -22,6 +23,14 @@ class ScanToFillViewController: UIViewController {
         view.addGestureRecognizer(panGR)
         
         // setting dots coordinates
+        STF_view = ScanToFillView(frame: view.frame)
+        view.addSubview(STF_view)
+        STF_view.backgroundColor = .white
+        STF_view.contentMode = .redraw
+        STF_view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        STF_view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        STF_view.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        STF_view.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         STF_view.setStartingSettings()
     }
     
