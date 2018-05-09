@@ -10,7 +10,6 @@ import UIKit
 
 class ScanToFillViewController: UIViewController {
 
-//    private lazy var STF_view = view as! ScanToFillView
     private var STF_view: ScanToFillView!
     private var touchedDot: Dots?
     private var touchedSide: Sides?

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ScanToFillView.isConvex(_:_:):ScanToFillView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result &lt; 170.0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScanToFillViewController.handlePan(gesture:):ScanToFillViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "changedDict[touchedDot]!.y">
+            </PersistentString>
+            <PersistentString
+               value = "changedDict[touchedDot]!.x">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScanToFillView.draw(_:):ScanToFillView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "upBeziarPath.bounds.insetBy(dx: 1.5, dy: 1.5)">
+            </PersistentString>
+            <PersistentString
+               value = "upBeziarPath.bounds">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScanToFillView.upperLeft_modificator.didset:ScanToFillView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.handlePan(gesture:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sqrt(pow(keyValue.value.x - touchedAt.x, 2) + pow(keyValue.value.y - touchedAt.y, 2))">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

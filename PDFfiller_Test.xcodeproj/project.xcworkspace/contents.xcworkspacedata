@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TestUI.xcodeproj">
+      location = "self:/Users/artem/Desktop/Developer/TestUI/PDFfiller_Test.xcodeproj">
    </FileRef>
 </Workspace>

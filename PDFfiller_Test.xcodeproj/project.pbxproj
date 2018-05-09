@@ -19,7 +19,7 @@
 /* Begin PBXFileReference section */
 		AC43ED82208B81EA003638C5 /* SupportingFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportingFile.swift; sourceTree = "<group>"; };
 		AC638959208161670028D294 /* ScanToFillViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanToFillViewController.swift; sourceTree = "<group>"; };
-		ACF08B662080C80D003F2E6A /* TestUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACF08B662080C80D003F2E6A /* PDFfiller_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFfiller_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF08B692080C80D003F2E6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACF08B6B2080C80D003F2E6A /* ScanToFillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanToFillView.swift; sourceTree = "<group>"; };
 		ACF08B6E2080C80D003F2E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		ACF08B672080C80D003F2E6A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ACF08B662080C80D003F2E6A /* TestUI.app */,
+				ACF08B662080C80D003F2E6A /* PDFfiller_Test.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,9 +81,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ACF08B652080C80D003F2E6A /* TestUI */ = {
+		ACF08B652080C80D003F2E6A /* PDFfiller_Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ACF08B782080C81C003F2E6A /* Build configuration list for PBXNativeTarget "TestUI" */;
+			buildConfigurationList = ACF08B782080C81C003F2E6A /* Build configuration list for PBXNativeTarget "PDFfiller_Test" */;
 			buildPhases = (
 				ACF08B622080C80D003F2E6A /* Sources */,
 				ACF08B632080C80D003F2E6A /* Frameworks */,
@@ -93,9 +93,9 @@
 			);
 			dependencies = (
 			);
-			name = TestUI;
+			name = PDFfiller_Test;
 			productName = TestUI;
-			productReference = ACF08B662080C80D003F2E6A /* TestUI.app */;
+			productReference = ACF08B662080C80D003F2E6A /* PDFfiller_Test.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -113,7 +113,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ACF08B612080C80D003F2E6A /* Build configuration list for PBXProject "TestUI" */;
+			buildConfigurationList = ACF08B612080C80D003F2E6A /* Build configuration list for PBXProject "PDFfiller_Test" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -126,7 +126,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ACF08B652080C80D003F2E6A /* TestUI */,
+				ACF08B652080C80D003F2E6A /* PDFfiller_Test */,
 			);
 		};
 /* End PBXProject section */
@@ -331,7 +331,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ACF08B612080C80D003F2E6A /* Build configuration list for PBXProject "TestUI" */ = {
+		ACF08B612080C80D003F2E6A /* Build configuration list for PBXProject "PDFfiller_Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ACF08B762080C81C003F2E6A /* Debug */,
@@ -340,7 +340,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ACF08B782080C81C003F2E6A /* Build configuration list for PBXNativeTarget "TestUI" */ = {
+		ACF08B782080C81C003F2E6A /* Build configuration list for PBXNativeTarget "PDFfiller_Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ACF08B792080C81C003F2E6A /* Debug */,
